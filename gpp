@@ -1,0 +1,46 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import optparse
+import tempfile
+import subprocess
+import sys
+
+import colors
+
+def run(options, args):
+  srcFileName = args[0]
+  tmpFileName = tempfile.mkstemp(suffix = '.log')[1]
+  tmpFile = open(tmpFileName, 'w')
+  compileProcess = subprocess.Popen(['g++', '-g3', '-ggdb', '-O0', '-Wall', '-Wextra', '-Wshadow', '-fno-inline','-o', options.exeFileName, srcFileName], stderr=tmpFile, stdout=tmpFile)
+  compileProcess.wait()
+  tmpFile = open(tmpFileName, 'r')
+  for line in tmpFile:
+    es = line.split(':')
+    if es[0][0:5] == '/usr/' :
+      print line[0:min(len(line), 40)]
+    elif es[0][-4:] == '.cpp' :
+      print colors.strColored(line[:-1], colors.RED)
+    else:
+      print line[:-1]
+  subprocess.call(['rm', tmpFileName])
+  return compileProcess.returncode
+
+
+def main():
+  parser = optparse.OptionParser(
+    usage = 'usage: %prog [options] srcFile',
+    version = '%prog 0.1'
+  )
+  parser.add_option('-o',
+                    action = 'store', dest = 'exeFileName',
+                    default = 'a.out',
+                    metavar = 'EXE',
+                    help = 'set executive filename'
+                    )
+  options, args = parser.parse_args()
+  return run(options, args)
+
+
+if __name__ == '__main__':
+  sys.exit(main())
