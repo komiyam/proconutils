@@ -1,0 +1,54 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import optparse
+import sys
+
+checkList = [
+  u'const定数は制約に合っているか？',
+  u'再帰の深さは安全か？',
+  u'indexは配列の範囲内か？',
+  u'vector使うときはreserveしてる？',
+  u'配列の長さは足りてる？+1とかしなくていい？',
+  u'MLEしない？',
+  u'0割してない？',
+  u'オーバーフローしない？',
+  u'ホントにしない？',
+  u'下限や上限は十分に大きくとれている？INFは大丈夫？',
+  u'不等号は等号を含む？',
+  u'for文の向きは合ってる？降順か昇順か',
+  u'複数ケースのとき初期化忘れてない？',
+  u'Modの値は合っている？Modの結果が負になっていない？',
+  u'整数の割り算は負の場合を考慮している？',
+  u'浮動小数点数で誤差死しない？',
+  u'最小ケース試した？',
+  u'nanとか-0.0とかは？',
+  u'1<<xでよい？1LL<<xじゃなくて大丈夫？',
+  u'最大ケース試した？',
+  u'メモ化は成功してる？',
+  u'setやmapで間に合う？10^6だと危ない(sortやuniqueに変えられない？)',
+  u'文字列の比較や代入のコストは考慮してる？',
+  u'入出力は高速化しなくて大丈夫？',
+  u'非正規化数にならない？',
+  u'グラフのサイズが大きいとき、ホントにDijkstraじゃなきゃダメ？ ',
+  u'*min_element/*max_elementを使うとき、範囲は正の長さになってる？(範囲が0だと望まない値が返る)'
+]
+
+
+def run(options, args):
+  for check in checkList:
+    sys.stdout.write( check )
+    raw_input()
+
+
+def main():
+  parser = optparse.OptionParser(
+                      description = 'review code before/after submit on a contest.',
+                      version = '%prog 0.1'
+                    )
+  options, args = parser.parse_args()
+  run(options, args)
+
+
+if( __name__ == '__main__' ):
+  main()
