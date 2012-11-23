@@ -1,0 +1,58 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import proconhelper as ph
+import subprocess
+import optparse
+import os
+import sys
+
+
+
+def customizeOption():
+  ph.parser.usage = 'usage: %prog [options] problemId [Input1] [Input2] ...'
+  ph.parser.version = '%prog 0.1'
+  ph.parser.description = 'A script for submit solution.'
+  ph.parser.set_defaults( judgeCompile = True )
+  ph.parser.add_option('-a', '--not-all',
+                    action = 'store_false', dest = 'allTest',
+                    default = True,
+                    help = 'NOT run all input')
+  ph.parser.add_option('-i', '--not-show-input',
+                    action = 'store_false', dest = 'showInput',
+                    default = True,
+                    help = 'NOT show input file')
+  ph.parser.add_option('-f', '--show-full',
+                    action = 'store_true', dest = 'fullIO',
+                    default = False,
+                    help = 'show full Input/Output')
+  ph.parser.add_option('-l', '--extra-placeholder',
+                    action = 'store_true', dest = 'extraPlaceholder',
+                    default = False,
+                    help = 'replace %lld -> %I64d')
+  ph.parser.add_option('-d', '--not-diff',
+                    action = 'store_false', dest = 'diffRun',
+                    default = True,
+                    help = 'NOT show diff between answer and output')
+  ph.parser.add_option('-c', '--extra-check',
+                    action = 'store_false', dest = 'precise',
+                    default = True,
+                    help = 'NOT use precise compare')
+  ph.parser.add_option('-n', '--not-run',
+                    action = 'store_false', dest = 'run',
+                    default = True,
+                    help = 'NOT run but only compile')
+
+
+
+def main():
+  customizeOption()
+  options, args = ph.parser.parse_args()
+  if( len(args) == 0 ):
+    args.append(raw_input('Input file ID\n'))
+  ph.run(options, args)
+
+
+
+if( __name__ == '__main__' ):
+  main()

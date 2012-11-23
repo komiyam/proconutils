@@ -1,0 +1,42 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import proconhelper as ph
+import optparse
+
+def customizeOption():
+  ph.parser.usage = 'usage: %prog [options] problemId [Input1] [Input2] ...'
+  ph.parser.version = '%prog 0.1'
+  ph.parser.description = 'A script for compile and test.'
+  ph.parser.add_option('-a', '--all',
+                    action = 'store_true', dest = 'allTest',
+                    default = False,
+                    help = 'run all input')
+  ph.parser.add_option('-i', '--show-input',
+                    action = 'store_true', dest = 'showInput',
+                    default = False,
+                    help = 'show input file')
+  ph.parser.add_option('-p', '--show-partial',
+                    action = 'store_false', dest = 'fullIO',
+                    default = True,
+                    help = 'show partial Input/Output')
+  ph.parser.add_option('-d', '--diff',
+                    action = 'store_true', dest = 'diffRun',
+                    default = False,
+                    help = 'show diff between answer and output')
+  ph.parser.add_option('-c', '--extra-check',
+                    action = 'store_false', dest = 'precise',
+                    default = True,
+                    help = 'NOT use precise compare')
+  ph.parser.add_option('-n', '--no-debug',
+                    action = 'store_false', dest = 'debug',
+                    default = True,
+                    help = 'NOT print any debug')
+
+def main():
+  customizeOption()
+  options, args = ph.parser.parse_args()
+  ph.run(options, args)
+
+if( __name__ == '__main__' ):
+  main()
